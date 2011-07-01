@@ -1,10 +1,4 @@
 unit TDI;
-{
-  Criado interface IVUALIZADOR
-  Criado classe Tvisualizador
-  adicionado a propriedade Visualizador
-  criado metodo VisualizarAbas
-}
 { *********************************************************************** }
 { Classe TTDI                                                             }
 {   Encapsula todo o código necessário para utilizar a interface TDI      }
@@ -16,6 +10,7 @@ unit TDI;
 { Principais métodos                                                      }
 {   MostrarFormulario(Classe: TComponentClass; Multi: Boolean);           }
 {   Fechar(Todas: Boolean);                                               }
+{   Formulario(Pagina: Integer): TForm;									  }
 { Veja mais informações sobre estes métodos em seu escopo.                }
 {                                                                         }
 { Propriedades                                                            }
@@ -62,7 +57,6 @@ type
     procedure CriarFormulario(Classe: TFormClass);
     procedure CriarPageControl;
     procedure WM_CLOSETAB(var Msg: TMessage); message WM_CLOSE_TAB;
-    function Formulario(Pagina: Integer): TForm;
     function NovaAba: TTabSheet;
     function Pagina(aClasseForm: TFormClass): TTabSheet;
   public
@@ -74,6 +68,9 @@ type
     procedure Fechar(Todas: Boolean);
 
     procedure VisualizarAbas(Visualizador: IVisualizador; NaoExibir: TFormClass);
+	{Você informa o index da aba e o método retorna o formulário que está sendo 
+	 exibido nela}
+	function Formulario(Pagina: Integer): TForm;
   published
     property MostrarMenuPopup: Boolean read GetMostrarMenuPopup write SetMostrarMenuPopup;
     property PageControl: TPageControl read GetPageControl;
