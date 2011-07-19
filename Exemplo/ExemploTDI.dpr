@@ -7,8 +7,8 @@ uses
   uFormCadastroDeClientes in 'uFormCadastroDeClientes.pas' {FormCadastroDeClientes},
   uFormParametrosDoSistema in 'uFormParametrosDoSistema.pas' {FormParametrosDoSistema},
   uFormPadrao in 'uFormPadrao.pas' {FormPadrao},
-  TDI in '..\TDI.pas',
-  VisualizaImagensDasGuiasAbertas in '..\VisualizaImagensDasGuiasAbertas.pas',
+  TDI in '..\TDI\TDI.pas',
+  VisualizaImagensDasGuiasAbertas in '..\TDI\VisualizaImagensDasGuiasAbertas.pas',
   uFormGuiasAbertas in 'uFormGuiasAbertas.pas' {FormGuiasAbertas};
 
 {$R *.res}
