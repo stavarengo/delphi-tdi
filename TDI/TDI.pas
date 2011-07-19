@@ -31,7 +31,7 @@ unit TDI;
 
 interface
 
-uses ComCtrls, Forms, Messages, Controls, Menus;
+uses ComCtrls, Forms, Messages, Controls, Menus, Classes;
 
 const
   WM_CLOSE_TAB = WM_USER + 1;
@@ -59,6 +59,11 @@ type
     procedure WM_CLOSETAB(var Msg: TMessage); message WM_CLOSE_TAB;
     function NovaAba: TTabSheet;
     function Pagina(aClasseForm: TFormClass): TTabSheet;
+    procedure PageControlDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure PageControlDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   public
     constructor Create(AOwner: TWinControl; aFormPadrao: TFormClass); reintroduce;
     destructor Destroy; override;
@@ -91,7 +96,7 @@ type
 
 implementation
 
-uses SysUtils, Classes, Windows;
+uses SysUtils, Windows;
 
 const
   INDEX_FORM = 00;//o primeiro componente da TTabSheet eh sempre o formulario
@@ -370,6 +375,9 @@ begin
     Align        := alClient;
     Parent       := Self.Parent;
     ParentWindow := Self.Parent.Handle;
+    OnDragOver   := PageControlDragOver;
+    OnMouseDown  := PageControlMouseDown;
+    OnDragDrop   := PageControlDragDrop;
   end;
 end;
 
@@ -411,6 +419,43 @@ begin
       Visualizador.ListarFormulario(Form);
       //notifica o visualizador sobre a existencia deste formulário
   end;
+end;
+
+procedure TTDI.PageControlMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbRight then
+    TPageControl(Sender).BeginDrag(False);
+end;
+
+
+procedure TTDI.PageControlDragDrop(Sender, Source: TObject; X, Y: Integer);
+const
+  TCM_GETITEMRECT = $130A;
+var
+  i: Integer;
+  r: TRect;
+begin
+  with TPageControl(Sender) do
+  begin
+    for i := 0 to PageCount - 1 do
+    begin
+      Perform(TCM_GETITEMRECT, i, lParam(@r));
+      if PtInRect(r, Point(X, Y)) then
+      begin
+        if i <> ActivePage.PageIndex then
+          ActivePage.PageIndex := i;
+        Exit;
+      end;
+    end;
+  end;
+end;
+
+procedure TTDI.PageControlDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  if Sender = Source then
+    Accept := True;
 end;
 
 end.
