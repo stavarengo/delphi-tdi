@@ -424,7 +424,7 @@ end;
 procedure TTDI.PageControlMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  if Button = mbRight then
+  if Button = mbLeft then
     TPageControl(Sender).BeginDrag(False);
 end;
 
