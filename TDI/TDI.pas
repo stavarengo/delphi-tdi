@@ -1,30 +1,32 @@
 unit TDI;
 { *********************************************************************** }
 { Classe TTDI                                                             }
-{   Encapsula todo o cÛdigo necess·rio para utilizar a interface TDI      }
+{   Encapsula todo o c√≥digo necess√°rio para utilizar a interface TDI      }
 {                                                                         }
-{   AUTOR: Rafael Stavarengo - faelsta@gmail.com - 08/2009                }
+{   AUTOR: Rafael Stavarengo - faelsta@gmail.com - 09/2012                }
+{   http://stavarengo.com                                                 }
 {                                                                         }
-{   http://www.devmedia.com.br/articles/viewcomp.asp?comp=11692           }
+{   http://www.devmedia.com.br/artigo-clube-delphi-110-formularios-em-abas/14379           }
+{   http://code.google.com/p/delphi-tdi/                                  }
 {                                                                         }
-{ Principais mÈtodos                                                      }
+{ Principais m√©todos                                                      }
 {   MostrarFormulario(Classe: TComponentClass; Multi: Boolean);           }
 {   Fechar(Todas: Boolean);                                               }
 {   Formulario(Pagina: Integer): TForm;									  }
-{ Veja mais informaÁıes sobre estes mÈtodos em seu escopo.                }
+{ Veja mais informa√ß√µes sobre estes m√©todos em seu escopo.                }
 {                                                                         }
 { Propriedades                                                            }
 {   FormPadrao: TFormClass;                                               }
-{    Este È o formul·rio que ser· aberto sempre que todas as abas         }
+{    Este √© o formul√°rio que ser√° aberto sempre que todas as abas         }
 {    forem fechadas.                                                      }
 {                                                                         }
 {   MostrarMenuPopup: Boolean;                                            }
-{    Nesta propriedade vocÍ pode definir se o menu popup com as opÁıes    }
-{    'Fechar' e 'Fechar todas' ser· exibido.                              }
+{    Nesta propriedade voc√™ pode definir se o menu popup com as op√ß√µes    }
+{    'Fechar' e 'Fechar todas' ser√° exibido.                              }
 {                                                                         }
 {   PageControl: TPageControl;                                            }
-{    Esta È uma propriedade somente leitura que d· acesso ao TPageControl }
-{    onde as abas (TTabSheets) est„o sendo exibidas.                      }
+{    Esta √© uma propriedade somente leitura que d√° acesso ao TPageControl }
+{    onde as abas (TTabSheets) est√£o sendo exibidas.                      }
 {                                                                         }
 {                                                                         }
 { *********************************************************************** }
@@ -73,24 +75,24 @@ type
     procedure Fechar(Todas: Boolean);
 
     procedure VisualizarAbas(Visualizador: IVisualizador; NaoExibir: TFormClass);
-	{VocÍ informa o index da aba e o mÈtodo retorna o formul·rio que est· sendo 
+	{Voc√™ informa o index da aba e o m√©todo retorna o formul√°rio que est√° sendo 
 	 exibido nela}
 	function Formulario(Pagina: Integer): TForm;
   published
     property MostrarMenuPopup: Boolean read GetMostrarMenuPopup write SetMostrarMenuPopup;
     property PageControl: TPageControl read GetPageControl;
 
-    {FormPadrao È classe do formulario que sempre sera aberto quando todos os
-     outros forms est„o fechados}
+    {FormPadrao √© classe do formulario que sempre sera aberto quando todos os
+     outros forms est√£o fechados}
     property FormPadrao: TFormClass read GetFormPadrao write SetFormPadrao;
   end;
 
-  {Interface para classes que desejam exibir uma lista dos formul·rios abertos}
+  {Interface para classes que desejam exibir uma lista dos formul√°rios abertos}
   IVisualizador = interface
     ['{07EF861E-5B9F-4534-8D6B-3A62BB8C4F80}']
-    {ListarFormulario È chamado uma vez para cada formul·rio aberto nas abas.
-     O par‚metro FormularioAberto, possui uma referÍncia para o formul·rio
-     que est· aberto}
+    {ListarFormulario √© chamado uma vez para cada formul√°rio aberto nas abas.
+     O par√¢metro FormularioAberto, possui uma refer√™ncia para o formul√°rio
+     que est√° aberto}
     procedure ListarFormulario(FormularioAberto: TForm);
   end;
 
@@ -136,7 +138,7 @@ function TTDI.NovaAba: TTabSheet;
 {adiciona uma nova aba ao PageControl e retorna a nova aba como resultado}
 
     {Alem de criar um novo TabSheet a funcao NovaAba ativa a TabSheet criada,
-     assim apos executar NovaAba, a propriedade ActivePage sempre ser· a
+     assim apos executar NovaAba, a propriedade ActivePage sempre ser√° a
      ultima TabSheet criada}
 var
   Tab: TTabSheet;
@@ -187,7 +189,7 @@ begin
         {sai do loop apenas se a pagina nao estiver ativa, pq se a pagina
          ja estiver ativa nos vamos procurar por outra instancia desta classe.
          Isso fara com que caso exista mais de uma instacia criada, cada chamada
-         desta funcao o resultado n„o seja a ultima instacia encontrada}
+         desta funcao o resultado n√£o seja a ultima instacia encontrada}
         Break;
       end;                                                      
     end;
@@ -293,7 +295,7 @@ begin
 
   {PageControl.PageCount = 1;;; isso se deve pq este vento eh chamado antes da aba
    sumir de fato. Ou seja, se existir somente uma aba e este evento for chamado
-   significa que esta ultima aba esta sendo fechada e depois nao sobrar· nenhuma outra aba}
+   significa que esta ultima aba esta sendo fechada e depois nao sobrar√° nenhuma outra aba}
 end;
 
 procedure TTDI.WM_CLOSETAB(var Msg: TMessage);
@@ -311,9 +313,9 @@ begin
     //se o formulario nao existe mais
     if Formulario(Msg.WParam) = nil then
     begin
-      {se nao setarmos o ActivePage (abaixo), quando o usu·rio pedir para fechar
-       todas, duas vezes seguidas, o OnHide nao ser· executado na segunda vez e
-       o FormPadrao n„o sera mostrado}
+      {se nao setarmos o ActivePage (abaixo), quando o usu√°rio pedir para fechar
+       todas, duas vezes seguidas, o OnHide nao ser√° executado na segunda vez e
+       o FormPadrao n√£o sera mostrado}
       PageControl.ActivePage := nil;
 
       PageControl.Pages[Msg.WParam].Free;//entao deleta a pagina
@@ -343,23 +345,23 @@ begin
     //configura o formulario
     Align       := alClient;
     BorderStyle := bsNone;
-    Parent      := PageControl.ActivePage;//ActivePage È ultima aba criada com NovaAba
+    Parent      := PageControl.ActivePage;//ActivePage √© ultima aba criada com NovaAba
 
 
-    {O evento onActive do TForm n„o È executado pq o que se torna ativo
-     na verdade È o TTabSheet onde o formulario foi criado. Sendo assim qualquer
-     coisa escrita no onActive do formul·rio n„o ser· executado.
-     Para contornar esta situaÁ„o nos passamos o evento onActive do Form para o
-     evento onEnter do TTabSheet. E assim simulamos com seguranÁa o evento onActive}
+    {O evento onActive do TForm n√£o √© executado pq o que se torna ativo
+     na verdade √© o TTabSheet onde o formulario foi criado. Sendo assim qualquer
+     coisa escrita no onActive do formul√°rio n√£o ser√° executado.
+     Para contornar esta situa√ß√£o nos passamos o evento onActive do Form para o
+     evento onEnter do TTabSheet. E assim simulamos com seguran√ßa o evento onActive}
     PageControl.ActivePage.OnEnter := OnActivate;
 
     PageControl.ActivePage.Caption := Caption;//transfere o caption do form para o caption da aba
 
-    Show;//mostra o formul·rio
+    Show;//mostra o formul√°rio
 
     {Embora comigo nunca tenha acontecido, algumas pessoas me avisaram sobre
-     uma exceÁ„o de focus que a linha abaixo gera em casos bem especificos.
-     Eu deixo descomentado e se vocÍ prefefir pode comentar a linha abaixo.}
+     uma exce√ß√£o de focus que a linha abaixo gera em casos bem especificos.
+     Eu deixo descomentado e se voc√™ prefefir pode comentar a linha abaixo.}
     try
       Perform(WM_NEXTDLGCTL, 0, 0);//muda o foco para o primeiro controle do formulario
     except
@@ -395,9 +397,9 @@ begin
       FreeAndNil(FPageControl);
     end;
   except
-    { TODO : ACABAR ESTA EXCE«√O
-             ACOTECE SEMPRE QUE A APLICA«√O … FECHADA,
-             POREM N√O INTERFERE EM NADA }
+    { TODO : ACABAR ESTA EXCE√á√ÉO
+             ACOTECE SEMPRE QUE A APLICA√á√ÉO √â FECHADA,
+             POREM N√ÉO INTERFERE EM NADA }
   end;
 
   inherited;
@@ -409,15 +411,15 @@ var
   i: Integer;
   Form: TForm;
 begin
-  {Percorre todas as abas que est„o abertas}
+  {Percorre todas as abas que est√£o abertas}
   for i := 0 to PageControl.PageCount - 1 do
   begin
-    Form := Formulario(i);//armazena a referencia ao formul·rio da aba
+    Form := Formulario(i);//armazena a referencia ao formul√°rio da aba
 
-    //se o formul·rio pode ser exibido
+    //se o formul√°rio pode ser exibido
     if Form.ClassType <> NaoExibir then
       Visualizador.ListarFormulario(Form);
-      //notifica o visualizador sobre a existencia deste formul·rio
+      //notifica o visualizador sobre a existencia deste formul√°rio
   end;
 end;
 
