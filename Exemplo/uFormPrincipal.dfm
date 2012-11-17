@@ -24,7 +24,6 @@ object FormPrincipal: TFormPrincipal
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitHeight = 0
     object BitBtn1: TSpeedButton
       Left = 8
       Top = 8

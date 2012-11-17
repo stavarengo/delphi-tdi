@@ -1,4 +1,4 @@
-unit TDI;
+﻿unit TDI;
 { *********************************************************************** }
 { Classe TTDI                                                             }
 {   Encapsula todo o código necessário para utilizar a interface TDI      }
@@ -33,13 +33,17 @@ unit TDI;
 
 interface
 
-uses ComCtrls, Forms, Messages, Controls, Menus, Classes;
+uses ComCtrls, Forms, Messages, Controls, Menus, Classes, TabCloseButton;
 
 const
   WM_CLOSE_TAB = WM_USER + 1;
 
 type
   IVisualizador = interface;//declaracao antecipada
+
+  //Sobrescreve o TPageControl nativo para com nossa classe que sabe desenhar
+  //o botão fechar nas abas.
+  TPageControl = class(TTabCloseButton);
 
   TTDI = class(TWinControl)
   private
@@ -66,6 +70,7 @@ type
       State: TDragState; var Accept: Boolean);
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure PageControlCloseClick(Sender: TObject);
   public
     constructor Create(AOwner: TWinControl; aFormPadrao: TFormClass); reintroduce;
     destructor Destroy; override;
@@ -152,6 +157,8 @@ begin
   Tab.PopupMenu   := nil;
 
   PageControl.ActivePageIndex := Tab.PageIndex;
+
+  PageControl.UpdateCloseButtons;
 
   Result := Tab;
 end;
@@ -380,6 +387,7 @@ begin
     OnDragOver   := PageControlDragOver;
     OnMouseDown  := PageControlMouseDown;
     OnDragDrop   := PageControlDragDrop;
+    OnCloseClick := PageControlCloseClick;
   end;
 end;
 
@@ -421,6 +429,11 @@ begin
       Visualizador.ListarFormulario(Form);
       //notifica o visualizador sobre a existencia deste formulário
   end;
+end;
+
+procedure TTDI.PageControlCloseClick(Sender: TObject);
+begin
+  Fechar(False);
 end;
 
 procedure TTDI.PageControlMouseDown(Sender: TObject;

@@ -9,7 +9,9 @@ uses
   uFormPadrao in 'uFormPadrao.pas' {FormPadrao},
   TDI in '..\TDI\TDI.pas',
   VisualizaImagensDasGuiasAbertas in '..\TDI\VisualizaImagensDasGuiasAbertas.pas',
-  uFormGuiasAbertas in 'uFormGuiasAbertas.pas' {FormGuiasAbertas};
+  uFormGuiasAbertas in 'uFormGuiasAbertas.pas' {FormGuiasAbertas},
+  PageControlEx in '..\TDI\PageControlEx.pas',
+  TabCloseButton in '..\TDI\TabCloseButton.pas';
 
 {$R *.res}
 

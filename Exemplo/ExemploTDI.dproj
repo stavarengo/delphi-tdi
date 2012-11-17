@@ -59,6 +59,8 @@
 			<DCCReference Include="uFormGuiasAbertas.pas">
 				<Form>FormGuiasAbertas</Form>
 			</DCCReference>
+			<DCCReference Include="..\TDI\PageControlEx.pas"/>
+			<DCCReference Include="..\TDI\TabCloseButton.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
