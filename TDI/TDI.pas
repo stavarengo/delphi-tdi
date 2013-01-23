@@ -111,13 +111,19 @@ const
 { TTDI }
 
 procedure TTDI.MostrarFormulario(Classe: TFormClass; Multi: Boolean);
+var
+  Anterior: TTabSheet;
 begin
   if not Multi then//se nao pode criar mais de uma instacia da classe
   begin
+    Anterior := PageControl.ActivePage;
     PageControl.ActivePage := Pagina(Classe);
 
     if PageControl.ActivePage <> nil then//se encontrou uma instacia da classe
+    begin
+      if Anterior <> PageControl.ActivePage then PageControl.Change();
       Exit;//sai pq nao pode criar outra
+    end;
   end;
 
   CriarFormulario(Classe);
@@ -157,6 +163,7 @@ begin
   Tab.PopupMenu   := nil;
 
   PageControl.ActivePageIndex := Tab.PageIndex;
+  PageControl.Change();
 
   PageControl.UpdateCloseButtons;
 
@@ -326,6 +333,7 @@ begin
       PageControl.ActivePage := nil;
 
       PageControl.Pages[Msg.WParam].Free;//entao deleta a pagina
+      PageControl.Change();
     end;
   end;
 end;

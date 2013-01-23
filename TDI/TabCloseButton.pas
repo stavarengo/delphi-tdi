@@ -128,7 +128,6 @@ var
   I: Integer;
 begin
   inherited;
-  OutputDebugString('Down');
   if Button = mbLeft then
   begin
     for I := 0 to Length(FCloseButtonsRect) - 1 do
@@ -146,7 +145,6 @@ end;
 procedure TTabCloseButton.MouseLeave(Sender: TObject);
 begin
   inherited;
-  OutputDebugString('Leave');
   FCloseButtonShowPushed := False;
   Repaint;
 end;
@@ -171,7 +169,6 @@ end;
 procedure TTabCloseButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
-  OutputDebugString('Up');
   if (Button = mbLeft) and (FCloseButtonMouseDownIndex >= 0) then
   begin
     if PtInRect(FCloseButtonsRect[FCloseButtonMouseDownIndex], Point(X, Y)) then
