@@ -313,16 +313,15 @@ begin
 end;
 
 procedure TTDI.WM_CLOSETAB(var Msg: TMessage);
+var
+  Form: TForm;
 begin
-  if Formulario(Msg.WParam) <> nil then
+  Form := Formulario(Msg.WParam);
+  if Form <> nil then
   begin
-    with Formulario(Msg.WParam) do
-    begin
-      Close;
-
-      if CloseQuery then
-        Free;
-    end;
+    Form.Close;
+    if not Form.Visible then
+      Form.Free;
 
     //se o formulario nao existe mais
     if Formulario(Msg.WParam) = nil then

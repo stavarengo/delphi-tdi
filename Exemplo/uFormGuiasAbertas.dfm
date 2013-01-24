@@ -28,6 +28,7 @@ object FormGuiasAbertas: TFormGuiasAbertas
     TabOrder = 0
   end
   object Timer1: TTimer
+    Interval = 150
     OnTimer = Timer1Timer
     Left = 120
     Top = 96

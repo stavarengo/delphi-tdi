@@ -11,7 +11,8 @@ uses
   VisualizaImagensDasGuiasAbertas in '..\TDI\VisualizaImagensDasGuiasAbertas.pas',
   uFormGuiasAbertas in 'uFormGuiasAbertas.pas' {FormGuiasAbertas},
   PageControlEx in '..\TDI\PageControlEx.pas',
-  TabCloseButton in '..\TDI\TabCloseButton.pas';
+  TabCloseButton in '..\TDI\TabCloseButton.pas',
+  uFormConfirmaFechar in 'uFormConfirmaFechar.pas' {FormConfirmaFechar};
 
 {$R *.res}
 

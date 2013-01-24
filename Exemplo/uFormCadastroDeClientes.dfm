@@ -1,9 +1,9 @@
 object FormCadastroDeClientes: TFormCadastroDeClientes
   Left = 356
   Top = 274
-  Width = 340
-  Height = 246
   Caption = 'Cadastro de clientes'
+  ClientHeight = 208
+  ClientWidth = 324
   Color = 4227327
   Constraints.MinHeight = 246
   Constraints.MinWidth = 340
@@ -14,8 +14,8 @@ object FormCadastroDeClientes: TFormCadastroDeClientes
   Font.Style = []
   OldCreateOrder = False
   DesignSize = (
-    332
-    212)
+    324
+    208)
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel

@@ -15,12 +15,14 @@ type
     CBMultinstancia: TCheckBox;
     CBPermitirFecharTodas: TCheckBox;
     SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure CBPermitirFecharTodasClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
+    procedure SpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -34,7 +36,7 @@ var
 implementation
 
 uses uFormCadastroDeClientes, uFormPadrao, uFormParametrosDoSistema,
-  uFormGuiasAbertas;
+  uFormGuiasAbertas, uFormConfirmaFechar;
 
 {$R *.dfm}
 
@@ -71,6 +73,11 @@ end;
 procedure TFormPrincipal.SpeedButton2Click(Sender: TObject);
 begin
   FTDI.MostrarFormulario(TFormGuiasAbertas, False);
+end;
+
+procedure TFormPrincipal.SpeedButton3Click(Sender: TObject);
+begin
+  FTDI.MostrarFormulario(TFormConfirmaFechar, CBMultinstancia.Checked);
 end;
 
 end.
