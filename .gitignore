@@ -1,1 +1,4 @@
 *.dcu
+/Exemplo/ExemploTDI_Icon.ico
+/Exemplo/*.dproj.local
+/Exemplo/*.identcache
