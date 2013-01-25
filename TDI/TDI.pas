@@ -71,6 +71,7 @@ type
     procedure PageControlMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure PageControlCloseClick(Sender: TObject);
+    procedure CloseTab(Pagina: Integer);
   public
     constructor Create(AOwner: TWinControl; aFormPadrao: TFormClass); reintroduce;
     destructor Destroy; override;
@@ -274,7 +275,7 @@ begin
     True:
     begin
       for i := PageControl.PageCount - 1 downto 0 do
-        PostMessage(Self.Handle, WM_CLOSE_TAB, i, 0);
+        CloseTab(i);
     end;
 
     False:
@@ -287,10 +288,11 @@ function TTDI.Formulario(Pagina: Integer): TForm;
 begin
   Result := nil;
 
-  with PageControl.Pages[Pagina] do
-    if ComponentCount > 0 then
-      if Components[INDEX_FORM] is TForm then
-        Result := TForm(Components[INDEX_FORM]);
+  if PageControl.PageCount > Pagina then
+    with PageControl.Pages[Pagina] do
+      if ComponentCount > 0 then
+        if Components[INDEX_FORM] is TForm then
+          Result := TForm(Components[INDEX_FORM]);
 end;
 
 procedure TTDI.OnTabHide(Sender: TObject);
@@ -313,10 +315,15 @@ begin
 end;
 
 procedure TTDI.WM_CLOSETAB(var Msg: TMessage);
+begin
+  CloseTab(Msg.WParam);
+end;
+
+procedure TTDI.CloseTab(Pagina: Integer);
 var
   Form: TForm;
 begin
-  Form := Formulario(Msg.WParam);
+  Form := Formulario(Pagina);
   if Form <> nil then
   begin
     Form.Close;
@@ -324,14 +331,14 @@ begin
       Form.Free;
 
     //se o formulario nao existe mais
-    if Formulario(Msg.WParam) = nil then
+    if Formulario(Pagina) = nil then
     begin
       {se nao setarmos o ActivePage (abaixo), quando o usuário pedir para fechar
        todas, duas vezes seguidas, o OnHide nao será executado na segunda vez e
        o FormPadrao não sera mostrado}
       PageControl.ActivePage := nil;
 
-      PageControl.Pages[Msg.WParam].Free;//entao deleta a pagina
+      PageControl.Pages[Pagina].Free;//entao deleta a pagina
       PageControl.Change();
     end;
   end;

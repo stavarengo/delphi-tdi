@@ -30,7 +30,7 @@ uses DateUtils, Types, VisualizaImagensDasGuiasAbertas, uFormPrincipal;
 
 procedure TFormGuiasAbertas.FormActivate(Sender: TObject);
 begin
-    Visualizador := TVisualizaImagensDasGuiasAbertas.Create(ScrollBox1, FTDI);
+  Visualizador := TVisualizaImagensDasGuiasAbertas.Create(ScrollBox1, FTDI);
   FTDI.VisualizarAbas(Visualizador, TFormGuiasAbertas);
 end;
 
