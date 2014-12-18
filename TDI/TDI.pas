@@ -392,7 +392,7 @@ end;
 
 procedure TTDI.CriarPageControl;
 begin
-  FPageControl := TPageControl.Create(Self.Parent);
+  FPageControl := TPageControl.Create(Self);
   with PageControl do
   begin
     Align        := alClient;
@@ -412,18 +412,7 @@ end;
 
 destructor TTDI.Destroy;
 begin
-  try
-    try
-      Fechar(True);
-    finally
-      FreeAndNil(FPageControl);
-    end;
-  except
-    { TODO : ACABAR ESTA EXCEÇÃO
-             ACOTECE SEMPRE QUE A APLICAÇÃO É FECHADA,
-             POREM NÃO INTERFERE EM NADA }
-  end;
-
+  Fechar(True);
   inherited;
 end;
 
