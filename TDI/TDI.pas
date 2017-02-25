@@ -163,6 +163,7 @@ begin
   Tab.OnHide      := OnTabHide;
   Tab.PopupMenu   := nil;
 
+  PageControl.Visible := True;  //exibe o PageControl (é criado oculto, caso não tenha form padrão)
   PageControl.ActivePageIndex := Tab.PageIndex;
   PageControl.Change();
 
@@ -279,7 +280,8 @@ begin
     end;
 
     False:
-      PostMessage(Self.Handle, WM_CLOSE_TAB, PageControl.ActivePageIndex, 0);
+     // PostMessage(Self.Handle, WM_CLOSE_TAB, PageControl.ActivePageIndex, 0);
+      CloseTab(PageControl.ActivePageIndex);
   end;
 end;
 
@@ -297,9 +299,6 @@ end;
 
 procedure TTDI.OnTabHide(Sender: TObject);
 begin
-  if PageControl.PageCount = 0 then
-    PageControl.Visible := False;
-
   {quando fechar uma aba verifica se esta configurado o formulario padrao
    caso esteja configurado e nao tenha mais nem uma outra aba aberta,
    entao abre o formulario padrao}
@@ -342,6 +341,8 @@ begin
       PageControl.Change();
     end;
   end;
+
+  PageControl.Visible := PageControl.PageCount > 0;  //oculta o PageControl, caso não tenha mais nenhuma aba
 end;
 
 procedure TTDI.MenuFechar(Sender: TObject);
@@ -356,6 +357,8 @@ end;
 
 procedure TTDI.CriarFormulario(Classe: TFormClass);
   {cria o formulario a partir de sua classe}
+const
+  EspacosBotaoFechar = '      ';  //espaço destinado p/ o botão 'fechar' de cada aba
 var
   Form: TForm;
 begin
@@ -376,7 +379,7 @@ begin
      evento onEnter do TTabSheet. E assim simulamos com segurança o evento onActive}
     PageControl.ActivePage.OnEnter := OnActivate;
 
-    PageControl.ActivePage.Caption := Caption;//transfere o caption do form para o caption da aba
+    PageControl.ActivePage.Caption := Caption + EspacosBotaoFechar;//transfere o caption do form para o caption da aba
 
     Show;//mostra o formulário
 
@@ -395,6 +398,7 @@ begin
   FPageControl := TPageControl.Create(Self);
   with PageControl do
   begin
+    Visible      := False;  //cria o PageControl oculto, caso não tenha form padrão informado
     Align        := alClient;
     Parent       := Self.Parent;
     ParentWindow := Self.Parent.Handle;
