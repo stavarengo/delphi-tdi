@@ -10,7 +10,6 @@ type
   TTabCloseButton = class(TPageControlEx)
   private
     FCloseButtonsRect: array of TRect;
-    FCloseButtonMouseDownIndex: Integer;
     FCloseButtonShowPushed: Boolean;
     FOnCloseClick: TNotifyEvent;
   protected
@@ -33,7 +32,7 @@ implementation
 constructor TTabCloseButton.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  TabWidth     := 150;
+ // TabWidth     := 150;  //comentado p/ deixar a largura das abas dinâmica
   OwnerDraw    := True;
   UpdateCloseButtons;
 end;
@@ -53,7 +52,6 @@ begin
 //  {$IFEND}
 
   SetLength(FCloseButtonsRect, PageCount);
-  FCloseButtonMouseDownIndex := -1;
 
   for I := 0 to Length(FCloseButtonsRect) - 1 do
   begin
@@ -63,8 +61,9 @@ end;
 
 procedure TTabCloseButton.DrawTab(TabIndex: Integer; const Rect: TRect;
   Active: Boolean);
+const
+  CloseBtnSize = 14;
 var
-  CloseBtnSize: Integer;
   TabCaption: TPoint;
   CloseBtnRect: TRect;
   CloseBtnDrawState: Cardinal;
@@ -74,7 +73,6 @@ begin
 
   if InRange(TabIndex, 0, Length(FCloseButtonsRect) - 1) then
   begin
-    CloseBtnSize := 14;
     TabCaption.Y := Rect.Top + 3;
 
     if Active then
@@ -99,7 +97,7 @@ begin
 
     if not UseThemes then
     begin
-      if (FCloseButtonMouseDownIndex = TabIndex) and FCloseButtonShowPushed then
+      if (TabIndex = ActivePageIndex) and FCloseButtonShowPushed then
         CloseBtnDrawState := DFCS_CAPTIONCLOSE + DFCS_PUSHED
       else
         CloseBtnDrawState := DFCS_CAPTIONCLOSE;
@@ -111,7 +109,7 @@ begin
     begin
       Dec(FCloseButtonsRect[TabIndex].Left);
 
-      if (FCloseButtonMouseDownIndex = TabIndex) and FCloseButtonShowPushed then
+      if (TabIndex = ActivePageIndex) and FCloseButtonShowPushed then
         CloseBtnDrawDetails := ThemeServices.GetElementDetails(twCloseButtonPushed)
       else
         CloseBtnDrawDetails := ThemeServices.GetElementDetails(twCloseButtonNormal);
@@ -134,7 +132,6 @@ begin
     begin
       if PtInRect(FCloseButtonsRect[I], Point(X, Y)) then
       begin
-        FCloseButtonMouseDownIndex := I;
         FCloseButtonShowPushed := True;
         Repaint;
       end;
@@ -154,9 +151,9 @@ var
   Inside: Boolean;
 begin
   inherited;
-  if (ssLeft in Shift) and (FCloseButtonMouseDownIndex >= 0) then
+  if (ssLeft in Shift) and (ActivePageIndex >= 0) then
   begin
-    Inside := PtInRect(FCloseButtonsRect[FCloseButtonMouseDownIndex], Point(X, Y));
+    Inside := PtInRect(FCloseButtonsRect[ActivePageIndex], Point(X, Y));
 
     if FCloseButtonShowPushed <> Inside then
     begin
@@ -169,16 +166,15 @@ end;
 procedure TTabCloseButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
-  if (Button = mbLeft) and (FCloseButtonMouseDownIndex >= 0) then
+  if (Button = mbLeft) and (ActivePageIndex >= 0) then
   begin
-    if PtInRect(FCloseButtonsRect[FCloseButtonMouseDownIndex], Point(X, Y)) then
+    if PtInRect(FCloseButtonsRect[ActivePageIndex], Point(X, Y)) then
     begin
       if Assigned(FOnCloseClick) then
       begin
-        FOnCloseClick(Pages[FCloseButtonMouseDownIndex]);
+        FOnCloseClick(Pages[ActivePageIndex]);
       end;
 
-      FCloseButtonMouseDownIndex := -1;
       Repaint;
     end;
   end;
