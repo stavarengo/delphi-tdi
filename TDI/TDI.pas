@@ -398,14 +398,15 @@ begin
   FPageControl := TPageControl.Create(Self);
   with PageControl do
   begin
-    Visible      := False;  //cria o PageControl oculto, caso não tenha form padrão informado
-    Align        := alClient;
-    Parent       := Self.Parent;
-    ParentWindow := Self.Parent.Handle;
-    OnDragOver   := PageControlDragOver;
-    OnMouseDown  := PageControlMouseDown;
-    OnDragDrop   := PageControlDragDrop;
-    OnCloseClick := PageControlCloseClick;
+    Visible       := False;  //cria o PageControl oculto, caso não tenha form padrão informado
+    Align         := alClient;
+    Parent        := Self.Parent;
+    ParentWindow  := Self.Parent.Handle;
+    OnDragOver    := PageControlDragOver;
+    OnMouseDown   := PageControlMouseDown;
+    OnDragDrop    := PageControlDragDrop;
+    OnCloseClick  := PageControlCloseClick;
+    StyleElements := [];  //desabilita VCL skin p/ o PageControl (se estiver habilitado, os botões p/ fechar as abas não aparecem)
   end;
 end;
 

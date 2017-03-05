@@ -110,9 +110,9 @@ begin
       Dec(FCloseButtonsRect[TabIndex].Left);
 
       if (TabIndex = ActivePageIndex) and FCloseButtonShowPushed then
-        CloseBtnDrawDetails := ThemeServices.GetElementDetails(twCloseButtonPushed)
+        CloseBtnDrawDetails := ThemeServices.GetElementDetails(twSmallCloseButtonPushed)
       else
-        CloseBtnDrawDetails := ThemeServices.GetElementDetails(twCloseButtonNormal);
+        CloseBtnDrawDetails := ThemeServices.GetElementDetails(twSmallCloseButtonNormal);
 
       ThemeServices.DrawElement(Canvas.Handle, CloseBtnDrawDetails,
         FCloseButtonsRect[TabIndex]);
