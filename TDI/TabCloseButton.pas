@@ -123,7 +123,8 @@ end;
 procedure TTabCloseButton.MouseDown(Button: TMouseButton; Shift: TShiftState;
   X, Y: Integer);
 var
-  I: Integer;
+  I, tabIndex: Integer;
+  p: TPoint;
 begin
   inherited;
   if Button = mbLeft then
@@ -136,6 +137,15 @@ begin
         Repaint;
       end;
     end;
+  end
+  else if Button in [mbMiddle, mbRight] then
+  begin
+    p := Self.ScreenToClient(Mouse.CursorPos); //pega a posição do mouse
+    tabIndex := Self.IndexOfTabAt(p.X, p.Y);   //pega o index da aba clicada
+
+    if tabIndex >= 0 then
+      if ActivePageIndex <> tabIndex then
+        ActivePageIndex := tabIndex;  //set a aba como ativa
   end;
 end;
 
@@ -171,12 +181,17 @@ begin
     if PtInRect(FCloseButtonsRect[ActivePageIndex], Point(X, Y)) then
     begin
       if Assigned(FOnCloseClick) then
-      begin
         FOnCloseClick(Pages[ActivePageIndex]);
-      end;
 
       Repaint;
     end;
+  end
+  else if (Button = mbMiddle) and (ActivePageIndex >= 0) then
+  begin
+    if Assigned(FOnCloseClick) then
+      FOnCloseClick(Pages[ActivePageIndex]);
+
+    Repaint;
   end;
 end;
 
