@@ -335,7 +335,7 @@ begin
       {se nao setarmos o ActivePage (abaixo), quando o usuário pedir para fechar
        todas, duas vezes seguidas, o OnHide nao será executado na segunda vez e
        o FormPadrao não sera mostrado}
-      PageControl.ActivePage := nil;
+      //PageControl.ActivePage := nil; //Roniery correção para abas sumindo apos fechar uma aba
 
       PageControl.Pages[Pagina].Free;//entao deleta a pagina
       PageControl.Change();
